@@ -73,18 +73,21 @@ class TopPostPresenter: PostPresenter {
     }
     
     func markPostAsRead(_ post: PostState) {
+        readPosts.insert(post.post.id)
         if let index = posts.firstIndex(of: post) {
             posts[index].read = true
         }
     }
     
     func dismissPost(_ post: PostState) {
+        dismissedPosts.insert(post.post.id)
         if let index = posts.firstIndex(of: post) {
-            posts[index].dismiss = true
+            posts.remove(at: index)
         }
     }
     
     func dimissAllPost() {
-        
+        posts.forEach({dismissedPosts.insert($0.post.id)})
+        posts.removeAll()
     }
 }
