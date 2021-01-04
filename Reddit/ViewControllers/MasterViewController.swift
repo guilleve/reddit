@@ -12,6 +12,10 @@ class MasterViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        RedditService(urlSession: URLSession.shared).listing(listingType: .top, count: 5) { result in
+            print("Result: \(result)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
