@@ -10,12 +10,24 @@ import UIKit
 
 class MasterViewController: UITableViewController {
     
+    var presenter: PostPresenter
+    
+    required init?(coder: NSCoder) {
+        presenter = TopPostPresenter(service: RedditService(urlSession: URLSession.shared))
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        RedditService(urlSession: URLSession.shared).listing(listingType: .top, count: 5) { result in
-            print("Result: \(result)")
-        }
+        presenter.getAllPost(
+            onSuccess: {[weak self] posts in
+                guard let self = self else { return }
+                self.tableView.reloadData()
+                print("Result: \(posts)")
+            }, onFail: { error in
+                print("Error")
+            })
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,7 +36,7 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return presenter.posts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -8,12 +8,12 @@
 import Foundation
 
 struct Post {
-    var id: String?
-    var title: String?
-    var author: String?
-    var createdAt: Date?
+    var id: String
+    var title: String
+    var author: String
+    var createdAt: Date
     var thumbnailUrl: String?
-    var numOfcomments: Int?
+    var numOfcomments: Int
     var imageUrl: String?
 }
 
