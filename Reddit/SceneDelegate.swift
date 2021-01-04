@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
 
@@ -16,7 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        let splitViewController = window!.rootViewController as! UISplitViewController
+        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
+        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
+        splitViewController.delegate = self
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,6 +51,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
+        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
+        guard let topAsDetailController = secondaryAsNavController.topViewController as? DetailViewController else { return false }
+        if topAsDetailController.object == nil {
+            // Return true to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
+            return true
+        }
+        return false
+    }
 }
 
