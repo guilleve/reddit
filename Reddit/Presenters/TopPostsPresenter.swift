@@ -10,6 +10,9 @@ import Foundation
 protocol PostPresenter: class {
     func getAllPost(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void)
     func loadMore(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void)
+    func markPostAsRead(_ post: PostState)
+    func dismissPost(_ post: PostState) -> Int?
+    func dimissAllPost()
     var posts: [PostState] {get}
     var isLoading: Bool {get}
 }
@@ -79,11 +82,13 @@ class TopPostPresenter: PostPresenter {
         }
     }
     
-    func dismissPost(_ post: PostState) {
+    func dismissPost(_ post: PostState) -> Int? {
         dismissedPosts.insert(post.post.id)
         if let index = posts.firstIndex(of: post) {
             posts.remove(at: index)
+            return index
         }
+        return nil
     }
     
     func dimissAllPost() {

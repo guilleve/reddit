@@ -40,7 +40,16 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
+        cell.configfPostCell(presenter.posts[indexPath.row]) {[weak self] post in
+            self?.dismissPost(post)
+        }
         return cell
+    }
+    
+    private func dismissPost(_ post: PostState) {
+        if let index = self.presenter.dismissPost(post) {
+            tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
     }
 }

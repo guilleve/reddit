@@ -16,4 +16,20 @@ struct PostState: Equatable {
     static func == (lhs: PostState, rhs: PostState) -> Bool {
         return lhs.post.id == rhs.post.id
     }
+    
+    var userName: String {
+        return post.author
+    }
+    
+    var title: String {
+        return post.title
+    }
+    
+    var numberOfComments: String {
+        return "\(post.numOfcomments)"
+    }
+    
+    var postedTime: String {
+        return DateFormatter().string(from: post.createdAt)
+    }
 }
