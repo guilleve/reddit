@@ -19,7 +19,7 @@ protocol PostPresenter: class {
 
 class TopPostPresenter: PostPresenter {
     
-    let pageSize = 5
+    let pageSize = 10
     var posts = [PostState]()
     var isLoading = false
     private var after: String?
@@ -33,6 +33,7 @@ class TopPostPresenter: PostPresenter {
     }
     
     func getAllPost(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void) {
+        posts.removeAll()
         isLoading = true
         service.listing(
             listingType: .top,
