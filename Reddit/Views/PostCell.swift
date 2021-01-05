@@ -32,6 +32,9 @@ class PostCell: UITableViewCell {
         numOfCommentsLabel.text = post.numberOfComments
         readStatusIndicator.isHidden = post.read
         postedTimeLabel.text = post.postedTime
+        if let thumbnailUrl = post.thumbnailUrl {
+            thumbnailImageView.setImage(fromURL: thumbnailUrl)
+        }
     }
     
     @IBAction func dismissButtonTapped(_ sender: Any) {

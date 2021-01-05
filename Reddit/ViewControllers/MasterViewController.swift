@@ -36,10 +36,13 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.posts.count
+        return presenter.posts.count + 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == presenter.posts.count {
+            return tableView.dequeueReusableCell(withIdentifier: "LoadingMoreCell", for: indexPath)
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
         cell.configfPostCell(presenter.posts[indexPath.row]) {[weak self] post in
             self?.dismissPost(post)

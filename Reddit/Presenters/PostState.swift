@@ -26,10 +26,18 @@ struct PostState: Equatable {
     }
     
     var numberOfComments: String {
-        return "\(post.numOfcomments)"
+        return "\(post.numOfcomments) \(post.numOfcomments > 1 ? "Comments" : "Comment")"
     }
     
     var postedTime: String {
         return DateFormatter().string(from: post.createdAt)
+    }
+    
+    var imageUrl: String? {
+        return post.imageUrl
+    }
+    
+    var thumbnailUrl: String? {
+        return post.thumbnailUrl
     }
 }
