@@ -40,7 +40,7 @@ struct PostState: Equatable {
     }
     
     var postedTime: String {
-        return DateFormatter().string(from: post.createdAt)
+        return post.createdAt.timeAgo()
     }
     
     var imageUrl: String? {

@@ -42,7 +42,9 @@ extension Resource where A: Decodable {
         urlComponents?.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
         self.urlRequest = URLRequest(url: urlComponents!.url!)
         self.parse = { data in
-            try? JSONDecoder().decode(A.self, from: data)
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.dateDecodingStrategy = .secondsSince1970
+            return try? jsonDecoder.decode(A.self, from: data)
         }
     }
     
