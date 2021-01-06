@@ -9,12 +9,22 @@ import Foundation
 
 struct PostState: Equatable {
     
-    var post: Post
+    private var post: Post
     var read: Bool = false
     var dismiss: Bool = false
     
+    init(post: Post, read: Bool, dismiss: Bool) {
+        self.post = post
+        self.read = read
+        self.dismiss = dismiss
+    }
+    
     static func == (lhs: PostState, rhs: PostState) -> Bool {
         return lhs.post.id == rhs.post.id
+    }
+    
+    var id: String {
+        return post.id
     }
     
     var userName: String {

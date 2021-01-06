@@ -7,93 +7,56 @@
 
 import Foundation
 
-protocol PostPresenter: class {
-    func getAllPost(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void)
-    func loadMore(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void)
-    func markPostAsRead(_ post: PostState)
-    func dismissPost(_ post: PostState) -> Int?
-    func dimissAllPost()
-    var posts: [PostState] {get}
-    var isLoading: Bool {get}
-}
+class TopPostPresenter {
 
-class TopPostPresenter: PostPresenter {
-    
-    let pageSize = 10
-    var posts = [PostState]()
     var isLoading = false
-    private var after: String?
-    private var service: RedditAPIService
-    private var readPosts = Set<String>()
-    private var dismissedPosts = Set<String>()
+    var repository: ListingRepository
     
-    
-    init(service: RedditAPIService) {
-        self.service = service
+    init(repository: ListingRepository) {
+        self.repository = repository
     }
     
-    func getAllPost(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void) {
-        posts.removeAll()
+    func getAllPost(onSuccess: @escaping () -> Void, onFail: @escaping (ServiceError) -> Void) {
         isLoading = true
-        service.listing(
-            listingType: .top,
-            count: pageSize,
-            before: nil,
-            after: nil,
-            completion: { [unowned self] result in
-                self.isLoading = false
-                switch result {
-                case .success(let response):
-                    self.after = response.data.after
-                    self.posts = response.data.children.map{PostState(post: $0.data)}.filter({!$0.dismiss})
-                    print("success: \(self.posts)")
-                    onSuccess(self.posts)
-                case .failure(let error):
-                    print("error: \(error)")
-                }
+        repository.getAll(
+            onSuccess: { [weak self] in
+                self?.isLoading = false
+                onSuccess()
+            }, onFail: { [weak self] error in
+                self?.isLoading = false
+                onFail(error)
             })
     }
     
-    func loadMore(onSuccess: @escaping ([PostState]) -> Void, onFail: @escaping (ServiceError) -> Void) {
+    func loadMore(onSuccess: @escaping (Int) -> Void, onFail: @escaping (ServiceError) -> Void) {
         isLoading = true
-        service.listing(
-            listingType: .top,
-            count: pageSize,
-            before: nil,
-            after: after,
-            completion: { [unowned self] result in
-                self.isLoading = false
-                switch result {
-                case .success(let response):
-                    self.after = response.data.after
-                    let newPosts = response.data.children.map{PostState(post: $0.data)}.filter({!$0.dismiss})
-                    self.posts.append(contentsOf: newPosts)
-                    onSuccess(newPosts)
-                    print("success: \(newPosts)")
-                case .failure(let error):
-                    print("error: \(error)")
-                }
+        repository.loadMore(
+            onSuccess: { [weak self] newPostsCount in
+                self?.isLoading = false
+                onSuccess(newPostsCount)
+            }, onFail: { [weak self] error in
+                self?.isLoading = false
+                onFail(error)
             })
     }
     
-    func markPostAsRead(_ post: PostState) {
-        readPosts.insert(post.post.id)
-        if let index = posts.firstIndex(of: post) {
-            posts[index].read = true
-        }
+    func markAsRead(post: PostState) {
+        repository.markAsRead(post: post)
     }
     
-    func dismissPost(_ post: PostState) -> Int? {
-        dismissedPosts.insert(post.post.id)
-        if let index = posts.firstIndex(of: post) {
-            posts.remove(at: index)
-            return index
-        }
-        return nil
+    func dismiss(post: PostState) -> Int? {
+        repository.dismiss(post: post)
     }
     
     func dimissAllPost() {
-        posts.forEach({dismissedPosts.insert($0.post.id)})
-        posts.removeAll()
+        repository.dimissAllPost()
+    }
+    
+    var postCount: Int {
+        repository.postCount
+    }
+    
+    func postAtIndex(_ index: Int) -> PostState {
+        return repository.postAtIndex(index)
     }
 }

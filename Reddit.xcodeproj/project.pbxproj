@@ -15,6 +15,8 @@
 		183F56CA25A4E78200D147BA /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F56C925A4E78200D147BA /* PostCell.swift */; };
 		183F56D325A4FC5700D147BA /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F56D225A4FC5700D147BA /* UIImageView+Extension.swift */; };
 		183F56DB25A56E9200D147BA /* PostListFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F56DA25A56E9200D147BA /* PostListFooter.swift */; };
+		183F56E125A5E22D00D147BA /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F56E025A5E22D00D147BA /* LocalStorage.swift */; };
+		183F56E625A5F74D00D147BA /* PostRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183F56E525A5F74D00D147BA /* PostRepository.swift */; };
 		18E6FDAE25A357D900CB5A79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */; };
 		18E6FDB025A357D900CB5A79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */; };
 		18E6FDB525A357D900CB5A79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E6FDB325A357D900CB5A79 /* Main.storyboard */; };
@@ -56,6 +58,8 @@
 		183F56C925A4E78200D147BA /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		183F56D225A4FC5700D147BA /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		183F56DA25A56E9200D147BA /* PostListFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListFooter.swift; sourceTree = "<group>"; };
+		183F56E025A5E22D00D147BA /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		183F56E525A5F74D00D147BA /* PostRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRepository.swift; sourceTree = "<group>"; };
 		18E6FDAA25A357D900CB5A79 /* Reddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 		183F56A225A3BE3000D147BA /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				183F56E525A5F74D00D147BA /* PostRepository.swift */,
 				183F56A325A3BE4F00D147BA /* TopPostsPresenter.swift */,
 				183F56AC25A3C1B500D147BA /* PostState.swift */,
 			);
@@ -136,6 +141,14 @@
 				183F56D225A4FC5700D147BA /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		183F56DF25A5DC3600D147BA /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				183F56E025A5E22D00D147BA /* LocalStorage.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		18E6FDA125A357D800CB5A79 = {
@@ -161,6 +174,7 @@
 		18E6FDAC25A357D900CB5A79 /* Reddit */ = {
 			isa = PBXGroup;
 			children = (
+				183F56DF25A5DC3600D147BA /* Storage */,
 				183F56D125A4FAD000D147BA /* Extensions */,
 				183F56C825A4E76900D147BA /* Views */,
 				183F569225A3A05E00D147BA /* Network */,
@@ -360,11 +374,13 @@
 				18E6FE0325A382F300CB5A79 /* ListingResponse.swift in Sources */,
 				183F569925A3A11200D147BA /* Resource.swift in Sources */,
 				18E6FE0925A3832300CB5A79 /* Post.swift in Sources */,
+				183F56E625A5F74D00D147BA /* PostRepository.swift in Sources */,
 				183F569425A3A10700D147BA /* HttpMethod.swift in Sources */,
 				183F56A425A3BE4F00D147BA /* TopPostsPresenter.swift in Sources */,
 				183F56CA25A4E78200D147BA /* PostCell.swift in Sources */,
 				18E6FDAE25A357D900CB5A79 /* AppDelegate.swift in Sources */,
 				18E6FDF925A382B300CB5A79 /* RedditAPI.swift in Sources */,
+				183F56E125A5E22D00D147BA /* LocalStorage.swift in Sources */,
 				183F56AD25A3C1B500D147BA /* PostState.swift in Sources */,
 				18E6FDB025A357D900CB5A79 /* SceneDelegate.swift in Sources */,
 				183F569E25A3A20200D147BA /* URLSession+Resource.swift in Sources */,
