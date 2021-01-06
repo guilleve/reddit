@@ -85,6 +85,7 @@ class MasterViewController: UITableViewController {
     
     private func showError(error: Error) {
         print("error \(error.localizedDescription)")
+        showAlert("Error!", message: "There has been an error when retrieving new data. Description: \(error.localizedDescription)")
     }
 }
 
