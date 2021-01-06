@@ -17,8 +17,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p23-g2-3Zl">
-                                <rect key="frame" x="363" y="501.5" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gts-X0-GdR">
+                                <rect key="frame" x="30" y="76" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="CLG-FW-PUL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6L6-G6-RiP">
+                                <rect key="frame" x="284" y="142" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="NU1-ie-Fgf"/>
+                                    <constraint firstAttribute="height" constant="200" id="cMo-Zf-7P7"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p23-g2-3Zl">
+                                <rect key="frame" x="30" y="372" width="708" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -27,11 +43,21 @@
                         <viewLayoutGuide key="safeArea" id="Ca9-z4-Q99"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="p23-g2-3Zl" firstAttribute="centerY" secondItem="A68-mK-Pgq" secondAttribute="centerY" id="R4E-8T-WUw"/>
-                            <constraint firstItem="p23-g2-3Zl" firstAttribute="centerX" secondItem="A68-mK-Pgq" secondAttribute="centerX" id="yoC-d3-9Dq"/>
+                            <constraint firstItem="p23-g2-3Zl" firstAttribute="top" secondItem="6L6-G6-RiP" secondAttribute="bottom" constant="30" id="2A1-JB-oPF"/>
+                            <constraint firstItem="6L6-G6-RiP" firstAttribute="top" secondItem="gts-X0-GdR" secondAttribute="bottom" constant="45" id="3JQ-Wv-mgl"/>
+                            <constraint firstItem="p23-g2-3Zl" firstAttribute="leading" secondItem="Ca9-z4-Q99" secondAttribute="leading" constant="30" id="44L-h0-zcl"/>
+                            <constraint firstItem="gts-X0-GdR" firstAttribute="leading" secondItem="Ca9-z4-Q99" secondAttribute="leading" constant="30" id="Z5k-0d-Kdt"/>
+                            <constraint firstItem="6L6-G6-RiP" firstAttribute="centerX" secondItem="A68-mK-Pgq" secondAttribute="centerX" id="bzo-wT-ZU3"/>
+                            <constraint firstItem="gts-X0-GdR" firstAttribute="top" secondItem="Ca9-z4-Q99" secondAttribute="top" constant="26" id="epj-lO-OnB"/>
+                            <constraint firstItem="Ca9-z4-Q99" firstAttribute="trailing" secondItem="p23-g2-3Zl" secondAttribute="trailing" constant="30" id="oLg-DB-eq2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qMA-zG-hWT"/>
+                    <connections>
+                        <outlet property="imageView" destination="6L6-G6-RiP" id="KlS-xj-vTf"/>
+                        <outlet property="titleLabel" destination="p23-g2-3Zl" id="8cy-EU-VhP"/>
+                        <outlet property="usernameLabel" destination="gts-X0-GdR" id="oQ7-S1-egC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dd3-p4-hAC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -143,6 +169,7 @@
                                     <outlet property="thumbnailImageView" destination="OQH-oI-y0f" id="3RS-K8-McH"/>
                                     <outlet property="titleLabel" destination="gXB-58-drZ" id="rTC-cN-Bjc"/>
                                     <outlet property="usernameLabel" destination="ZLO-qv-9Qm" id="scr-3S-2KV"/>
+                                    <segue destination="9f8-Mh-Sbi" kind="showDetail" identifier="showDetail" id="iIr-qu-OSU"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingMoreCell" id="JK7-sO-ZPN">
@@ -225,6 +252,9 @@
             <point key="canvasLocation" x="90.647482014388501" y="531.47482014388493"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="iIr-qu-OSU"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">

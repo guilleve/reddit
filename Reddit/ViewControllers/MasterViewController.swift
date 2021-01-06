@@ -49,6 +49,32 @@ class MasterViewController: UITableViewController {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
     }
     
+    private func dismissPost(_ post: PostState) {
+        if let index = self.presenter.dismissPost(post) {
+            tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetail" {
+            if let indexPath = tableView.indexPathForSelectedRow,
+               let controller = (segue.destination as! UINavigationController).topViewController as? DetailViewController {
+                let post = presenter.posts[indexPath.row]
+                controller.post = post
+                presenter.markPostAsRead(post)
+                controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+                controller.navigationItem.leftItemsSupplementBackButton = true
+            }
+        }
+    }
+    
+    private func showError(error: Error) {
+        print("error \(error.localizedDescription)")
+    }
+}
+
+extension MasterViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.posts.count + 1
     }
@@ -62,12 +88,6 @@ class MasterViewController: UITableViewController {
             self?.dismissPost(post)
         }
         return cell
-    }
-    
-    private func dismissPost(_ post: PostState) {
-        if let index = self.presenter.dismissPost(post) {
-            tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
-        }
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -89,7 +109,18 @@ class MasterViewController: UITableViewController {
         }
     }
     
-    private func showError(error: Error) {
-        print("error \(error.localizedDescription)")
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = presenter.posts[indexPath.row]
+        presenter.markPostAsRead(post)
+        let cell = tableView.cellForRow(at: indexPath) as! PostCell
+        cell.markPostCellAsRead()
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let post = presenter.posts[indexPath.row]
+            self.dismissPost(post)
+        }
+    }
+
 }

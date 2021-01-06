@@ -37,6 +37,14 @@ class PostCell: UITableViewCell {
         }
     }
     
+    func markPostCellAsRead() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.readStatusIndicator.alpha = 0.0
+        }, completion: { _ in
+            self.readStatusIndicator.isHidden = true
+        })
+    }
+    
     @IBAction func dismissButtonTapped(_ sender: Any) {
         if let post = post {
             onDismissPost?(post)
