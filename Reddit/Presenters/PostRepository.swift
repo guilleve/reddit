@@ -57,14 +57,15 @@ class PostRepository: ListingRepository {
             count: pageSize,
             before: nil,
             after: nil,
-            completion: { [unowned self] result in
+            completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let response):
                     self.after = response.data.after
                     self.posts = response.data.children.map {
                         PostState(post: $0.data,
-                                  read: readPostIds.contains($0.data.id),
-                                  dismiss: dismissedPostIds.contains($0.data.id))
+                                  read: self.readPostIds.contains($0.data.id),
+                                  dismiss: self.dismissedPostIds.contains($0.data.id))
                     }.filter({!$0.dismiss})
                     print("success: \(self.posts)")
                     onSuccess()
@@ -81,15 +82,16 @@ class PostRepository: ListingRepository {
             count: pageSize,
             before: nil,
             after: after,
-            completion: { [unowned self] result in
+            completion: { [weak self] result in
+                guard let self = self else { return }
                 self.isLoadingMore = false
                 switch result {
                 case .success(let response):
                     self.after = response.data.after
                     let newPosts = response.data.children.map {
                         PostState(post: $0.data,
-                                  read: readPostIds.contains($0.data.id),
-                                  dismiss: dismissedPostIds.contains($0.data.id))
+                                  read: self.readPostIds.contains($0.data.id),
+                                  dismiss: self.dismissedPostIds.contains($0.data.id))
                     }.filter({!$0.dismiss})
                     self.posts.append(contentsOf: newPosts)
                     onSuccess(newPosts.count)
