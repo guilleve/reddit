@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UIViewController {
     
+    @IBOutlet var tableView: UITableView!
     @IBOutlet var postListFooter: PostListFooter!
     var presenter: TopPostPresenter
     
@@ -30,14 +31,13 @@ class MasterViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
     }
     
     private func configureTableView() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.tintColor = .white
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
         tableView.refreshControl = refreshControl
-        refreshControl?.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         postListFooter.setSelector(target: self, selector: #selector(dismissAllPosts))
     }
     
@@ -55,7 +55,7 @@ class MasterViewController: UITableViewController {
     }
     
     private func endLoadingIndicator() {
-        self.refreshControl?.endRefreshing()
+        self.tableView.refreshControl?.endRefreshing()
         self.postListFooter.setState(presenter.postCount == 0 ? .hidden : .showButton)
     }
     
@@ -90,13 +90,13 @@ class MasterViewController: UITableViewController {
     }
 }
 
-extension MasterViewController {
+extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.postCount
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
         cell.configfPostCell(presenter.postAtIndex(indexPath.row)) {[weak self] post in
             self?.dismiss(post: post)
@@ -107,7 +107,7 @@ extension MasterViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == presenter.postCount && !presenter.isLoading {
             postListFooter.setState(.loading)
             presenter.loadMore(
@@ -129,21 +129,21 @@ extension MasterViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = presenter.postAtIndex(indexPath.row)
         presenter.markAsRead(post: post)
         let cell = tableView.cellForRow(at: indexPath) as! PostCell
         cell.markPostCellAsRead()
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let post = presenter.postAtIndex(indexPath.row)
             self.dismiss(post: post)
         }
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return postListFooter
     }
 

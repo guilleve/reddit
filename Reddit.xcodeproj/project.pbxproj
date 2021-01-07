@@ -147,6 +147,14 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
+		183F572E25A7AA9200D147BA /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				18E6FDB325A357D900CB5A79 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		18E6FDA125A357D800CB5A79 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +176,7 @@
 		18E6FDAC25A357D900CB5A79 /* Reddit */ = {
 			isa = PBXGroup;
 			children = (
+				183F572E25A7AA9200D147BA /* Storyboards */,
 				183F56DF25A5DC3600D147BA /* Storage */,
 				183F56D125A4FAD000D147BA /* Extensions */,
 				183F56C825A4E76900D147BA /* Views */,
@@ -178,7 +187,6 @@
 				183F56A225A3BE3000D147BA /* Presenters */,
 				18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */,
 				18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */,
-				18E6FDB325A357D900CB5A79 /* Main.storyboard */,
 				18E6FDB625A357DA00CB5A79 /* Assets.xcassets */,
 				18E6FDB825A357DA00CB5A79 /* LaunchScreen.storyboard */,
 				18E6FDBB25A357DA00CB5A79 /* Info.plist */,

@@ -10,11 +10,9 @@ import UIKit
 
 extension UIImageView {
     
-    private func loadImageFromServer(url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
-        contentMode = mode
+    private func loadImageFromServer(url: URL) {
         
-        self.image = UIImage(systemName: "photo")
-        
+        image = UIImage(systemName: "photo")
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard
                 let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
@@ -29,7 +27,8 @@ extension UIImageView {
     }
     
     func setImage(fromURL urlStr : String?, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
+        contentMode = mode
         guard let urlStr = urlStr, let url = URL(string: urlStr) else { return }
-        loadImageFromServer(url: url, contentMode: mode)
+        loadImageFromServer(url: url)
     }
 }
