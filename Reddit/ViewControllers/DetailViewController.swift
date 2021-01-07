@@ -21,6 +21,7 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Detail"
         
         if let post = post {
             titleLabel.text = post.title

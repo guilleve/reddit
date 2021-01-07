@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UISplitViewControllerDe
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
+        splitViewController.preferredDisplayMode = UISplitViewController.DisplayMode.oneBesideSecondary
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

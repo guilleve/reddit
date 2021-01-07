@@ -22,6 +22,7 @@ class MasterViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Reddit Top Posts"
         configureTableView()
         refreshData()
         postListFooter.setState(.loading)
@@ -100,6 +101,9 @@ extension MasterViewController {
         cell.configfPostCell(presenter.postAtIndex(indexPath.row)) {[weak self] post in
             self?.dismiss(post: post)
         }
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.black
+        cell.selectedBackgroundView = backgroundView
         return cell
     }
     

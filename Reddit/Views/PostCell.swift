@@ -50,4 +50,10 @@ class PostCell: UITableViewCell {
             onDismissPost?(post)
         }
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.readStatusIndicator.alpha = 1.0
+        self.thumbnailImageView.image = UIImage()
+    }
 }
