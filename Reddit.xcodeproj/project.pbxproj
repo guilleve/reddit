@@ -27,6 +27,8 @@
 		18971B4E25A7F30900088AF3 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B4D25A7F30900088AF3 /* UserDefaultsStorage.swift */; };
 		18971B5225A7F33200088AF3 /* PostStateStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B5125A7F33200088AF3 /* PostStateStorage.swift */; };
 		18971B5A25A8969700088AF3 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B5925A8969700088AF3 /* ServiceError.swift */; };
+		18971B5E25A8A06F00088AF3 /* LocalStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B5D25A8A06F00088AF3 /* LocalStorageTests.swift */; };
+		18971B6825A8A89F00088AF3 /* PostStateStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B6725A8A89F00088AF3 /* PostStateStorageTests.swift */; };
 		18E6FDAE25A357D900CB5A79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */; };
 		18E6FDB025A357D900CB5A79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */; };
 		18E6FDB525A357D900CB5A79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E6FDB325A357D900CB5A79 /* Main.storyboard */; };
@@ -72,6 +74,8 @@
 		18971B4D25A7F30900088AF3 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
 		18971B5125A7F33200088AF3 /* PostStateStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateStorage.swift; sourceTree = "<group>"; };
 		18971B5925A8969700088AF3 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
+		18971B5D25A8A06F00088AF3 /* LocalStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageTests.swift; sourceTree = "<group>"; };
+		18971B6725A8A89F00088AF3 /* PostStateStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateStorageTests.swift; sourceTree = "<group>"; };
 		18E6FDAA25A357D900CB5A79 /* Reddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,14 +123,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		183F56A225A3BE3000D147BA /* Presenters */ = {
+		183F56A225A3BE3000D147BA /* Business logic */ = {
 			isa = PBXGroup;
 			children = (
 				183F56E525A5F74D00D147BA /* PostRepository.swift */,
 				183F56A325A3BE4F00D147BA /* TopPostsPresenter.swift */,
 				183F56AC25A3C1B500D147BA /* PostState.swift */,
 			);
-			path = Presenters;
+			path = "Business logic";
 			sourceTree = "<group>";
 		};
 		183F56C825A4E76900D147BA /* Views */ = {
@@ -188,15 +192,15 @@
 		18E6FDAC25A357D900CB5A79 /* Reddit */ = {
 			isa = PBXGroup;
 			children = (
-				183F572E25A7AA9200D147BA /* Storyboards */,
-				183F56DF25A5DC3600D147BA /* Storage */,
 				183F56D125A4FAD000D147BA /* Extensions */,
-				183F56C825A4E76900D147BA /* Views */,
+				183F572E25A7AA9200D147BA /* Storyboards */,
 				183F569225A3A05E00D147BA /* Network */,
-				18E6FE0725A3830C00CB5A79 /* Models */,
 				18E6FDF725A3825A00CB5A79 /* Services */,
+				18E6FE0725A3830C00CB5A79 /* Models */,
+				183F56DF25A5DC3600D147BA /* Storage */,
+				183F56A225A3BE3000D147BA /* Business logic */,
 				18E6FDE825A359D700CB5A79 /* ViewControllers */,
-				183F56A225A3BE3000D147BA /* Presenters */,
+				183F56C825A4E76900D147BA /* Views */,
 				18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */,
 				18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */,
 				18E6FDB625A357DA00CB5A79 /* Assets.xcassets */,
@@ -214,6 +218,8 @@
 				183F570A25A753E700D147BA /* PostRepositoryTests.swift */,
 				183F571625A7767E00D147BA /* TestRedditServiceTests.swift */,
 				183F571C25A77B8500D147BA /* MockUrlSession.swift */,
+				18971B5D25A8A06F00088AF3 /* LocalStorageTests.swift */,
+				18971B6725A8A89F00088AF3 /* PostStateStorageTests.swift */,
 				18E6FDC625A357DA00CB5A79 /* Info.plist */,
 			);
 			path = RedditTests;
@@ -378,10 +384,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18971B5E25A8A06F00088AF3 /* LocalStorageTests.swift in Sources */,
 				183F571D25A77B8500D147BA /* MockUrlSession.swift in Sources */,
 				18E6FDC525A357DA00CB5A79 /* TopPresenterTests.swift in Sources */,
 				183F571725A7767E00D147BA /* TestRedditServiceTests.swift in Sources */,
 				183F570B25A753E700D147BA /* PostRepositoryTests.swift in Sources */,
+				18971B6825A8A89F00088AF3 /* PostStateStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

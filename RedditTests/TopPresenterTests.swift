@@ -9,7 +9,7 @@ import XCTest
 @testable import Reddit
 
 class MockRepository: ListingRepository {
-    
+
     var posts = [PostState]()
     var success = true
     func getAll(onSuccess: @escaping () -> Void, onFail: @escaping (ServiceError) -> Void) {
@@ -61,6 +61,10 @@ class MockRepository: ListingRepository {
     }
     
     var postCount: Int {self.posts.count}
+    
+    func resetPosts() {
+        
+    }
 }
 
 class TopPostPresenterTests: XCTestCase {

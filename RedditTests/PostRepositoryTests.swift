@@ -10,7 +10,7 @@ import XCTest
 @testable import Reddit
 
 class MockService: RedditAPIService {
-    func listing(listingType type: RedditAPIListingType, count pageSize: Int?, before beforePostId: String?, after afterPostId: String?, completion: @escaping (Result<ListingResponse, ServiceError>) -> Void) {
+    func listing(listingType type: RedditAPI.ListingType, count pageSize: Int?, before beforePostId: String?, after afterPostId: String?, completion: @escaping (Result<ListingResponse, ServiceError>) -> Void) {
         
         let post1 = Post(id: "post1",
                         title: "title",
@@ -62,13 +62,22 @@ class MockStorage: LocalStorage {
     func getDismissedPostIds() -> [String] {
         return dimissedPostIds
     }
+    
+    func clear() {
+        readPostIds.removeAll()
+        dimissedPostIds.removeAll()
+    }
 }
 
 class PostRepositoryTests: XCTestCase {
     
     let repository = PostRepository(service: MockService(),
-                                    storage: MockStorage(),
+                                    storage: PostStateStorage(storage: UserDefaultsStorage()),
                                     pageSize: 3)
+    
+    override func tearDown() {
+        repository.resetPosts()
+    }
     
     func testGetAll() {
         repository.getAll(
@@ -76,7 +85,7 @@ class PostRepositoryTests: XCTestCase {
                 XCTAssertEqual(self.repository.postCount, 3)
                 XCTAssertEqual(self.repository.postAtIndex(2).id, "post3")
             }, onFail: { error in
-                XCTFail("test case should fail")
+                XCTFail("test case should not fail")
             })
     }
     
@@ -87,10 +96,19 @@ class PostRepositoryTests: XCTestCase {
                 guard let self = self else {return}
                 XCTAssertEqual(self.repository.postCount, 6)
                 XCTAssertEqual(self.repository.postAtIndex(3).id, "post1")
-                _ = self.repository.dismiss(post: self.repository.postAtIndex(3))
-                XCTAssertEqual(self.repository.postCount, 5)
             }, onFail: { error in
-                XCTFail("test case should fail")
+                XCTFail("test case should not fail")
+            })
+    }
+    
+    func testGetallFilterDismissed() {
+        repository.getAll(
+            onSuccess: {
+                XCTAssertEqual(self.repository.postCount, 3)
+                _ = self.repository.dismiss(post: self.repository.postAtIndex(0))
+                XCTAssertEqual(self.repository.postCount, 2)
+            }, onFail: { error in
+                XCTFail("test case should not fail")
             })
     }
 }
