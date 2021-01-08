@@ -7,6 +7,10 @@
 
 import Foundation
 
+/**
+ This class contains a post model instance and the read and dismiss status.
+ It separates the model from the view.
+ */
 struct PostState: Equatable {
     
     private var post: Post

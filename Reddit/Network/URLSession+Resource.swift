@@ -29,13 +29,6 @@ extension URLSession: URLSessionProtocol {
 
 extension URLSessionDataTask: URLSessionDataTaskProtocol {}
 
-enum ServiceError: Error {
-    case requestError(Error)
-    case decodingError
-    case noDataError
-    case responseFailError
-}
-
 extension URLSessionProtocol {
     /**
      Creates a task that retrieves the contents of a Resource based on its specified URL

@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Reddit API according to documentation (http://www.reddit.com/dev/api)
+ */
 enum RedditAPI {
     
     enum ListingType : String {

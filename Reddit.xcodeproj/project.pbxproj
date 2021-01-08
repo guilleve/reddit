@@ -26,6 +26,7 @@
 		18971B4A25A7F2B400088AF3 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B4925A7F2B400088AF3 /* UserDefaults+Extension.swift */; };
 		18971B4E25A7F30900088AF3 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B4D25A7F30900088AF3 /* UserDefaultsStorage.swift */; };
 		18971B5225A7F33200088AF3 /* PostStateStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B5125A7F33200088AF3 /* PostStateStorage.swift */; };
+		18971B5A25A8969700088AF3 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18971B5925A8969700088AF3 /* ServiceError.swift */; };
 		18E6FDAE25A357D900CB5A79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */; };
 		18E6FDB025A357D900CB5A79 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */; };
 		18E6FDB525A357D900CB5A79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E6FDB325A357D900CB5A79 /* Main.storyboard */; };
@@ -70,6 +71,7 @@
 		18971B4925A7F2B400088AF3 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		18971B4D25A7F30900088AF3 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
 		18971B5125A7F33200088AF3 /* PostStateStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStateStorage.swift; sourceTree = "<group>"; };
+		18971B5925A8969700088AF3 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		18E6FDAA25A357D900CB5A79 /* Reddit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reddit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E6FDAD25A357D900CB5A79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18E6FDAF25A357D900CB5A79 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				183F569325A3A10700D147BA /* HttpMethod.swift */,
 				183F569825A3A11200D147BA /* Resource.swift */,
 				183F569D25A3A20200D147BA /* URLSession+Resource.swift */,
+				18971B5925A8969700088AF3 /* ServiceError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18971B5A25A8969700088AF3 /* ServiceError.swift in Sources */,
 				183F56DB25A56E9200D147BA /* PostListFooter.swift in Sources */,
 				183F56D325A4FC5700D147BA /* UIImageView+Extension.swift in Sources */,
 				18E6FDE425A359D200CB5A79 /* MasterViewController.swift in Sources */,

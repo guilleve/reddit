@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Interface LocalStorage
+ */
 protocol LocalStorage {
     func save(readPostIds: [String])
     func getReadPostIds() -> [String]

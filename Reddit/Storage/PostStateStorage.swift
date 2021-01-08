@@ -7,6 +7,10 @@
 
 import Foundation
 
+/**
+ This class manages the post state using a concrete instance of *LocalStorage*. It keeps a list of read and dismissed posts in memory acting as cache
+ in order to avoid the access to the local storage every time a value is required.
+ */
 class PostStateStorage {
     
     private(set) var readPostIds = [String]()

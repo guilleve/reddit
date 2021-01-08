@@ -18,16 +18,29 @@ protocol ListingRepository: class {
     func resetPosts()
 }
 
+/**
+ This class manages the post according to the ListingRepository protocol
+ */
 class PostRepository: ListingRepository {
     
     private var pageSize: Int
     private var posts = [PostState]()
     private var listingType: RedditAPI.ListingType
     private var isLoadingMore = false
-    private var after: String?
     private var service: RedditAPIService
     private var storage: PostStateStorage
+    /**
+    Post id of last service call used to do the pagination, gotten from ListingResponse.data.after
+     */
+    private var after: String?
     
+    /**
+     Initialization of repository
+     - parameter service: concrete instance of RedditAPIService.
+     - parameter storage: concrete instance of PostStateStorage.
+     - parameter listingType: type of post to be retrieved..
+     - parameter pageSize: page size used to retrieve post from server.
+     */
     init(service: RedditAPIService,
          storage: PostStateStorage,
          listingType: RedditAPI.ListingType = .top,
@@ -39,14 +52,24 @@ class PostRepository: ListingRepository {
         self.pageSize = pageSize
     }
     
+    /**
+     Return the number of post.
+     */
     var postCount: Int {
         posts.count
     }
     
+    /**
+     Return a post by index.
+     */
     func postAtIndex(_ index: Int) -> PostState {
         return posts[index]
     }
     
+    /**
+    Retrieve from the service the *count* number of post, and filter the ones that have been dismissed using the local storage.
+     This method always remove all the existing posts before doing the service call.
+     */
     func getAll(onSuccess: @escaping () -> Void, onFail: @escaping (ServiceError) -> Void) {
         posts.removeAll()
         service.listing(
@@ -64,15 +87,22 @@ class PostRepository: ListingRepository {
                                   read: self.storage.readPostIds.contains($0.data.id),
                                   dismiss: self.storage.dismissedPostIds.contains($0.data.id))
                     }.filter({!$0.dismiss})
-                    print("success: \(self.posts)")
                     onSuccess()
                 case .failure(let error):
-                    print("error: \(error)")
+                    onFail(error)
                 }
             })
     }
     
+    /**
+    Retrieve from the service the *count* number of post, and filter the ones that have been dismissed using the local storage.
+     For the pagination, it uses the *after* property result of calling before getAll(..) method.
+     This method append the result posts to existing list of post.
+     */
     func loadMore(onSuccess: @escaping (Int) -> Void, onFail: @escaping (ServiceError) -> Void) {
+        if isLoadingMore {
+            return
+        }
         isLoadingMore = true
         service.listing(
             listingType: listingType,
@@ -99,6 +129,9 @@ class PostRepository: ListingRepository {
             })
     }
     
+    /**
+     Mark a post as read in the local storage.
+     */
     func markAsRead(post: PostState) {
         storage.markAsRead(post: post)
         if let index = posts.firstIndex(of: post) {
@@ -106,6 +139,9 @@ class PostRepository: ListingRepository {
         }
     }
     
+    /**
+     Mark a post as dismissed in the local storage and return the position, if any, else, return nil.
+     */
     func dismiss(post: PostState) -> Int? {
         storage.dismiss(post: post)
         if let index = posts.firstIndex(of: post) {
@@ -115,11 +151,17 @@ class PostRepository: ListingRepository {
         return nil
     }
     
+    /**
+     Mark all posts as dismissed in the local storage.
+     */
     func dimissAllPost() {
         storage.dismissAll(posts: posts)
         posts.removeAll()
     }
     
+    /**
+    Reset all post states by clearing the local storage.
+     */
     func resetPosts() {
         storage.clear()
     }
