@@ -7,6 +7,12 @@
 
 import Foundation
 
+//LocalStorage: The post state is saved in the local storage by using UserDefaults (just saving ids)
+//due to time limitations. This method is not intended for saving big amount of data that is read
+//frecuently because each time it reads/writes the whole file, so it isn't efficient.
+//The ideal would be to use another type of storage like CoreData, realm, etc for saving the post states,
+//and even better to save the post objets to support offline mode.
+
 /**
  Concrete implementation of LocalStorage interface.
  It uses UserDefaults to get/save post status id.
