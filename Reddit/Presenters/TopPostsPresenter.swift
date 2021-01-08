@@ -59,4 +59,8 @@ class TopPostPresenter {
     func postAtIndex(_ index: Int) -> PostState {
         return repository.postAtIndex(index)
     }
+    
+    func resetPosts() {
+        repository.resetPosts()
+    }
 }

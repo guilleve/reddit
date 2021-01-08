@@ -16,7 +16,7 @@ class MasterViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         let repository = PostRepository(service: RedditService(urlSession: URLSession.shared),
-                                        storage: UserDefaultsStorage())
+                                        storage: PostStateStorage(storage: UserDefaultsStorage()))
         presenter = TopPostPresenter(repository: repository)
         super.init(coder: coder)
     }
@@ -26,7 +26,6 @@ class MasterViewController: UIViewController {
         title = "Reddit Top Posts"
         configureTableView()
         refreshData()
-        postListFooter.setState(.loading)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,11 +37,13 @@ class MasterViewController: UIViewController {
         refreshControl.tintColor = .white
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        postListFooter.setSelector(target: self, selector: #selector(dismissAllPosts))
+        postListFooter.setSelectors(target: self,
+                                    dismissSelector: #selector(dismissAllPosts),
+                                    resetSelector: #selector(resetPosts))
     }
     
-    @objc private func refreshData() {
-        postListFooter.setState(.hidden)
+    @objc private func refreshData(_ sender: UIRefreshControl? = nil) {
+        postListFooter.setState(sender != nil ? .hidden : .loading)
         presenter.getAllPost(
             onSuccess: {[weak self] in
                 self?.tableView.reloadData()
@@ -55,12 +56,12 @@ class MasterViewController: UIViewController {
     }
     
     private func endLoadingIndicator() {
-        self.tableView.refreshControl?.endRefreshing()
-        self.postListFooter.setState(presenter.postCount == 0 ? .hidden : .showButton)
+        tableView.refreshControl?.endRefreshing()
+        postListFooter.setState(presenter.postCount == 0 ? .showResetButton : .showDismissButton)
     }
     
     private func dismiss(post: PostState) {
-        if let index = self.presenter.dismiss(post: post) {
+        if let index = presenter.dismiss(post: post) {
             tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }
     }
@@ -68,7 +69,12 @@ class MasterViewController: UIViewController {
     @objc private func dismissAllPosts() {
         presenter.dimissAllPost()
         tableView.reloadSections(IndexSet(integer: 0), with: .fade)
-        postListFooter.setState(.hidden)
+        postListFooter.setState(.showResetButton)
+    }
+    
+    @objc private func resetPosts() {
+        presenter.resetPosts()
+        refreshData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,7 +119,7 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
             presenter.loadMore(
                 onSuccess: { [weak self] newDataCount in
                     guard let self = self else { return }
-                    self.postListFooter.setState(.showButton)
+                    self.postListFooter.setState(.showDismissButton)
                     let startIndex = self.presenter.postCount - newDataCount
                     let endIndex = startIndex + newDataCount
                     let indexesToAdd = Array(startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
@@ -123,7 +129,7 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
                     }, completion: nil)
                 },
                 onFail: { [weak self] (error) in
-                    self?.postListFooter.setState(.showButton)
+                    self?.postListFooter.setState(.showDismissButton)
                     self?.showError(error: error)
                 })
         }
@@ -131,15 +137,14 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = presenter.postAtIndex(indexPath.row)
-        presenter.markAsRead(post: post)
-        let cell = tableView.cellForRow(at: indexPath) as! PostCell
-        cell.markPostCellAsRead()
+        presenter.markAsRead(post: post)        
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let post = presenter.postAtIndex(indexPath.row)
-            self.dismiss(post: post)
+            dismiss(post: post)
         }
     }
     

@@ -15,31 +15,28 @@ protocol ListingRepository: class {
     func dimissAllPost()
     func postAtIndex(_ index: Int) -> PostState
     var postCount: Int {get}
+    func resetPosts()
 }
 
 class PostRepository: ListingRepository {
     
     private var pageSize: Int
     private var posts = [PostState]()
-    private var listingType: RedditAPIListingType
+    private var listingType: RedditAPI.ListingType
     private var isLoadingMore = false
     private var after: String?
     private var service: RedditAPIService
-    private var storage: LocalStorage
-    private(set) var readPostIds = [String]()
-    private(set) var dismissedPostIds = [String]()
+    private var storage: PostStateStorage
     
     init(service: RedditAPIService,
-         storage: LocalStorage,
-         listingType: RedditAPIListingType = .top,
+         storage: PostStateStorage,
+         listingType: RedditAPI.ListingType = .top,
          pageSize: Int = 10) {
         
         self.service = service
         self.storage = storage
         self.listingType = listingType
         self.pageSize = pageSize
-        self.readPostIds = storage.getReadPostIds()
-        self.dismissedPostIds = storage.getDismissedPostIds()
     }
     
     var postCount: Int {
@@ -64,8 +61,8 @@ class PostRepository: ListingRepository {
                     self.after = response.data.after
                     self.posts = response.data.children.map {
                         PostState(post: $0.data,
-                                  read: self.readPostIds.contains($0.data.id),
-                                  dismiss: self.dismissedPostIds.contains($0.data.id))
+                                  read: self.storage.readPostIds.contains($0.data.id),
+                                  dismiss: self.storage.dismissedPostIds.contains($0.data.id))
                     }.filter({!$0.dismiss})
                     print("success: \(self.posts)")
                     onSuccess()
@@ -90,8 +87,8 @@ class PostRepository: ListingRepository {
                     self.after = response.data.after
                     let newPosts = response.data.children.map {
                         PostState(post: $0.data,
-                                  read: self.readPostIds.contains($0.data.id),
-                                  dismiss: self.dismissedPostIds.contains($0.data.id))
+                                  read: self.storage.readPostIds.contains($0.data.id),
+                                  dismiss: self.storage.dismissedPostIds.contains($0.data.id))
                     }.filter({!$0.dismiss})
                     self.posts.append(contentsOf: newPosts)
                     onSuccess(newPosts.count)
@@ -103,16 +100,14 @@ class PostRepository: ListingRepository {
     }
     
     func markAsRead(post: PostState) {
-        readPostIds.append(post.id)
-        storage.save(readPostIds: readPostIds)
+        storage.markAsRead(post: post)
         if let index = posts.firstIndex(of: post) {
             posts[index].read = true
         }
     }
     
     func dismiss(post: PostState) -> Int? {
-        dismissedPostIds.append(post.id)
-        storage.save(dismissedPostIds: dismissedPostIds)
+        storage.dismiss(post: post)
         if let index = posts.firstIndex(of: post) {
             posts.remove(at: index)
             return index
@@ -121,8 +116,11 @@ class PostRepository: ListingRepository {
     }
     
     func dimissAllPost() {
-        posts.forEach({dismissedPostIds.append($0.id)})
+        storage.dismissAll(posts: posts)
         posts.removeAll()
-        storage.save(dismissedPostIds: dismissedPostIds)
+    }
+    
+    func resetPosts() {
+        storage.clear()
     }
 }

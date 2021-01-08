@@ -10,17 +10,20 @@ import UIKit
 
 enum PostListFooterState {
     case loading
-    case showButton
+    case showDismissButton
     case hidden
+    case showResetButton
 }
 
 class PostListFooter: UIView {
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView?
-    @IBOutlet weak var dismissAllButton: UIButton?
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var dismissAllButton: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
     
-    func setSelector(target: Any, selector: Selector) {
-        dismissAllButton?.addTarget(target, action: selector, for: .touchUpInside)
+    func setSelectors(target: Any, dismissSelector: Selector, resetSelector: Selector) {
+        dismissAllButton.addTarget(target, action: dismissSelector, for: .touchUpInside)
+        resetButton.addTarget(target, action: resetSelector, for: .touchUpInside)
     }
     
     func setState(_ state: PostListFooterState) {
@@ -28,12 +31,20 @@ class PostListFooter: UIView {
         case .loading:
             activityIndicator?.isHidden = false
             dismissAllButton?.isHidden = true
-        case .showButton:
+            resetButton?.isHidden = true
+        case .showDismissButton:
             activityIndicator?.isHidden = true
             dismissAllButton?.isHidden = false
+            resetButton?.isHidden = true
         case .hidden:
             activityIndicator?.isHidden = true
             dismissAllButton?.isHidden = true
+            resetButton?.isHidden = true
+        case .showResetButton:
+            activityIndicator?.isHidden = true
+            dismissAllButton?.isHidden = true
+            resetButton?.isHidden = false
+            
         }
     }
 }

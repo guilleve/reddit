@@ -9,7 +9,7 @@ import Foundation
 
 protocol RedditAPIService {
     
-    func listing(listingType type: RedditAPIListingType,
+    func listing(listingType type: RedditAPI.ListingType,
                  count pageSize: Int?,
                  before beforePostId: String?,
                  after afterPostId: String?,
@@ -30,7 +30,7 @@ class RedditService: RedditAPIService {
         self.urlSession = urlSession
     }
         
-    func listing(listingType type: RedditAPIListingType,
+    func listing(listingType type: RedditAPI.ListingType,
                  count pageSize: Int?,
                  before beforePostId: String? = nil,
                  after afterPostId: String? = nil,

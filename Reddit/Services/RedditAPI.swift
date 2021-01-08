@@ -7,19 +7,19 @@
 
 import Foundation
 
-enum RedditAPIListingType : String {
-    case top
-    case hot
-    case best
-}
-
 enum RedditAPI {
+    
+    enum ListingType : String {
+        case top
+        case hot
+        case best
+    }
     
     enum Constants {
         static let baseURL = "https://www.reddit.com/"
     }
     
-    case listing(RedditAPIListingType)
+    case listing(ListingType)
     
     var method: String {
         switch self {

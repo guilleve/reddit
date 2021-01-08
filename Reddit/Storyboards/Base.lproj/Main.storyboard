@@ -227,18 +227,27 @@
                             <rect key="frame" x="101.5" y="45.5" width="37" height="37"/>
                             <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </activityIndicatorView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n3J-iB-Er6">
+                            <rect key="frame" x="79.5" y="49" width="81" height="30"/>
+                            <state key="normal" title="Reset Posts">
+                                <color key="titleColor" red="1" green="0.76170397199999995" blue="0.32414662500000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
                     </subviews>
                     <viewLayoutGuide key="safeArea" id="VyU-L3-Dfp"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="n3J-iB-Er6" firstAttribute="centerX" secondItem="kAi-Xc-JYo" secondAttribute="centerX" id="2bu-Ka-NT7"/>
                         <constraint firstItem="szP-gl-gZV" firstAttribute="centerX" secondItem="kAi-Xc-JYo" secondAttribute="centerX" id="DBq-k7-etD"/>
                         <constraint firstItem="HwG-Ed-eVG" firstAttribute="centerY" secondItem="kAi-Xc-JYo" secondAttribute="centerY" id="GdU-Td-BFL"/>
                         <constraint firstItem="HwG-Ed-eVG" firstAttribute="centerX" secondItem="kAi-Xc-JYo" secondAttribute="centerX" id="HOu-l1-CpL"/>
                         <constraint firstItem="szP-gl-gZV" firstAttribute="centerY" secondItem="kAi-Xc-JYo" secondAttribute="centerY" id="rQD-s0-mII"/>
+                        <constraint firstItem="n3J-iB-Er6" firstAttribute="centerY" secondItem="kAi-Xc-JYo" secondAttribute="centerY" id="whM-i0-Ovq"/>
                     </constraints>
                     <connections>
                         <outlet property="activityIndicator" destination="HwG-Ed-eVG" id="eKz-jL-PoC"/>
                         <outlet property="dismissAllButton" destination="szP-gl-gZV" id="uOa-Jo-wia"/>
+                        <outlet property="resetButton" destination="n3J-iB-Er6" id="kzw-MH-kBE"/>
                     </connections>
                 </view>
             </objects>
